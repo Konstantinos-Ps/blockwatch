@@ -1,1 +1,1 @@
-export const WebsiteURL = "https://www.example.com";
+export const WebsiteURL = "https://blockwatch-one.vercel.app";
