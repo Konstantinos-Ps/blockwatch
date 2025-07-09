@@ -1,5 +1,32 @@
 <script lang="ts">
-    import { Button } from "bits-ui";
+    import { Banknote, Bitcoin, Newspaper } from "@lucide/svelte";
+    // List of all supported news sources that i use from RapidAPI
+    const newsSources = [
+        { name: "Bitcoinist", url: "https://bitcoinist.com", icon: Bitcoin },
+        { name: "BSC News", url: "https://www.bsc.news", icon: Newspaper },
+        { name: "CoinDesk", url: "https://www.coindesk.com", icon: Newspaper },
+        {
+            name: "CoinTelegraph",
+            url: "https://cointelegraph.com",
+            icon: Newspaper,
+        },
+        {
+            name: "CryptoDaily",
+            url: "https://cryptodaily.co.uk",
+            icon: Newspaper,
+        },
+        { name: "Decrypt", url: "https://decrypt.co", icon: Newspaper },
+        {
+            name: "The Guardian (Crypto)",
+            url: "https://www.theguardian.com/technology/cryptocurrencies",
+            icon: Newspaper,
+        },
+        {
+            name: "Binance Public API",
+            url: "https://binance.com/",
+            icon: Banknote,
+        },
+    ];
 
     const pageTitle = "About Blockwatch";
     const pageDescription =
@@ -59,23 +86,25 @@
         </section>
 
         <section>
-            <h2 class="font-display text-2xl font-bold mb-4">Powered By</h2>
+            <h2 class="font-display text-2xl font-bold mb-6">Powered By</h2>
             <p class="text-foreground-alt mb-6">
-                This project is powered by <a
-                    href="https://cryptodaily.co.uk"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    class="link">cryptodaily.co.uk</a
-                >, a trusted source for cryptocurrency news and analysis.
+                Blockwatch aggregates news and crypto coin prices from the
+                following trusted sources:
             </p>
-            <div class="flex justify-center">
-                <Button.Root
-                    href="/"
-                    class="rounded-input bg-dark text-background shadow-mini hover:bg-dark/95 inline-flex
-	h-12 items-center justify-center px-[21px] text-[15px]
-	font-semibold active:scale-[0.98] active:transition-all"
-                    >Go Back Home</Button.Root
-                >
+
+            <!-- News Sources Grid -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
+                {#each newsSources as source}
+                    <a
+                        href={source.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="flex items-center gap-3 p-4 bg-background-alt rounded-lg hover:bg-dark/10 transition-colors border border-border-card"
+                    >
+                        <source.icon class="w-5 h-5 text-accent" />
+                        <span class="font-medium">{source.name}</span>
+                    </a>
+                {/each}
             </div>
         </section>
     </div>

@@ -11,8 +11,10 @@
         >
             <!-- Branding -->
             <div class="flex items-center gap-2">
-                <span class="font-display text-lg font-bold text-foreground"
-                    >Blockwatch</span
+                <a
+                    href="/"
+                    class="font-display text-lg font-bold text-foreground"
+                    >Blockwatch</a
                 >
             </div>
 

@@ -1,4 +1,7 @@
 <script lang="ts">
+    import Hero from "$lib/components/Hero.svelte";
+    import MarketTicker from "$lib/components/MarketTicker.svelte";
+
     const pageTitle = "Blockwatch";
     const pageDescription =
         "Stay updated with the latest crypto news and trends.";
@@ -14,3 +17,8 @@
     <meta name="author" content={pageAuthor} />
     <!-- Additional meta tags, links, or scripts -->
 </svelte:head>
+<main>
+    <Hero />
+
+    <MarketTicker />
+</main>

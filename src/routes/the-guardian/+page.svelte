@@ -1,8 +1,6 @@
 <script lang="ts">
     import { onMount } from "svelte";
     import { Newspaper } from "@lucide/svelte";
-    import Footer from "$lib/components/Footer.svelte";
-    import BackButton from "$lib/components/ui/BackButton.svelte";
 
     // 1.FOR TS CHECKS PROPERLY DECLARE REACTIVE VARIABLE
     let news: Array<{
@@ -47,63 +45,54 @@
     <meta name="author" content={pageAuthor} />
     <!-- Additional meta tags, links, or scripts -->
 </svelte:head>
-<!-- Add BackButton at the left top -->
+
+<!-- 4.RENDERING THE DATA AND ALSO STYLING-->
 <div class="max-w-3xl mx-auto px-6 py-8 bg-background text-foreground">
-    <div class="flex justify-start mb-6">
-        <!-- Flex container for alignment -->
-        <BackButton />
-    </div>
-    <!-- 4.RENDERING THE DATA AND ALSO STYLING-->
-    <div class="max-w-3xl mx-auto px-6 py-8 bg-background text-foreground">
-        <h1
-            class="scroll-m-20 text-balance text-4xl font-extrabold tracking-tight"
-        >
-            Blockwatch<Newspaper />
-        </h1>
+    <h1 class="scroll-m-20 text-balance text-4xl font-extrabold tracking-tight">
+        Blockwatch<Newspaper />
+    </h1>
 
-        {#if news.length === 0}
-            <p class="text-foreground-alt text-center py-8">Fetching news...</p>
-        {:else}
-            <ul class="space-y-6">
-                {#each news as item (item.url)}
-                    <li
-                        class="bg-background-alt rounded-lg p-6 shadow-card hover:shadow-popover transition-shadow border border-card"
+    {#if news.length === 0}
+        <p class="text-foreground-alt text-center py-8">Fetching news...</p>
+    {:else}
+        <ul class="space-y-6">
+            {#each news as item (item.url)}
+                <li
+                    class="bg-background-alt rounded-lg p-6 shadow-card hover:shadow-popover transition-shadow border border-card"
+                >
+                    <a
+                        href={item.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="news-link"
                     >
-                        <a
-                            href={item.url}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            class="news-link"
+                        <h2
+                            class="text-xl font-semibold group-hover:text-accent transition-colors"
                         >
-                            <h2
-                                class="text-xl font-semibold group-hover:text-accent transition-colors"
-                            >
-                                {item.title || "Untitled Article"}
-                            </h2>
-                        </a>
+                            {item.title || "Untitled Article"}
+                        </h2>
+                    </a>
 
-                        {#if item.description}
-                            <p class="mt-2 text-foreground-alt">
-                                {item.description}
-                            </p>
+                    {#if item.description}
+                        <p class="mt-2 text-foreground-alt">
+                            {item.description}
+                        </p>
+                    {/if}
+
+                    <div
+                        class="mt-4 flex items-center text-sm text-muted-foreground"
+                    >
+                        {#if item.source}
+                            <span>Source: {item.source}</span>
                         {/if}
-
-                        <div
-                            class="mt-4 flex items-center text-sm text-muted-foreground"
-                        >
-                            {#if item.source}
-                                <span>Source: {item.source}</span>
-                            {/if}
-                            {#if item.createdAt}
-                                <span class="ml-2"> | {item.createdAt}</span>
-                            {/if}
-                        </div>
-                    </li>
-                {/each}
-            </ul>
-        {/if}
-        <Footer />
-    </div>
+                        {#if item.createdAt}
+                            <span class="ml-2"> | {item.createdAt}</span>
+                        {/if}
+                    </div>
+                </li>
+            {/each}
+        </ul>
+    {/if}
 </div>
 
 <style>
