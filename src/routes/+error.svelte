@@ -1,6 +1,6 @@
 <script lang="ts">
-    import { Button } from "bits-ui";
     import { page } from "$app/stores";
+    import BackButton from "$lib/components/ui/BackButton.svelte";
 
     const pageDescription =
         $page.status === 404 ? "Page not found" : "An error occurred";
@@ -31,13 +31,7 @@
                 : "An unexpected error occurred. Please try again later."}
         </p>
         <div class="flex justify-center">
-            <Button.Root
-                href="/"
-                class="rounded-input bg-dark text-background shadow-mini hover:bg-dark/95 inline-flex
-	h-12 items-center justify-center px-[21px] text-[15px]
-	font-semibold active:scale-[0.98] active:transition-all"
-                >Go Back Home</Button.Root
-            >
+            <BackButton />
         </div>
     </div>
 </div>
