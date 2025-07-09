@@ -1,5 +1,6 @@
 <script lang="ts">
     import { Banknote, Bitcoin, Newspaper } from "@lucide/svelte";
+
     // List of all supported news sources that i use from RapidAPI
     const newsSources = [
         { name: "Bitcoinist", url: "https://bitcoinist.com", icon: Bitcoin },

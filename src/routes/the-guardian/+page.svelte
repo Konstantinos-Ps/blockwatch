@@ -1,6 +1,5 @@
 <script lang="ts">
     import { onMount } from "svelte";
-    import { Newspaper } from "@lucide/svelte";
 
     // 1.FOR TS CHECKS PROPERLY DECLARE REACTIVE VARIABLE
     let news: Array<{
@@ -49,7 +48,7 @@
 <!-- 4.RENDERING THE DATA AND ALSO STYLING-->
 <div class="max-w-3xl mx-auto px-6 py-8 bg-background text-foreground">
     <h1 class="scroll-m-20 text-balance text-4xl font-extrabold tracking-tight">
-        Blockwatch<Newspaper />
+        Blockwatch
     </h1>
 
     {#if news.length === 0}
