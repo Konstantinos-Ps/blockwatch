@@ -1,5 +1,5 @@
 <script lang="ts">
-    //@ts-nocheck
+    //@ts-nocheck still bored to do types for this one
     import { onMount } from "svelte";
     import {
         Bitcoin,
@@ -194,7 +194,7 @@
 
     onMount(() => {
         fetchPrices();
-        const priceInterval = setInterval(fetchPrices, 90000); //30000->30secs so 90000->1minute and 30seconds new Crypto Prices
+        const priceInterval = setInterval(fetchPrices, 180000); //30000->30secs so 180000->3minutes new Crypto Prices
         animateScroll();
         return () => clearInterval(priceInterval);
     });

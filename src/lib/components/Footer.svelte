@@ -26,6 +26,15 @@
                     href="/about"
                     class="link text-foreground-alt hover:text-foreground"
                     >About</a
+                ><a
+                    href="/privacy-policy"
+                    class="link text-foreground-alt hover:text-foreground"
+                    >Privacy</a
+                >
+                <a
+                    href="/terms-of-service"
+                    class="link text-foreground-alt hover:text-foreground"
+                    >Terms</a
                 >
             </nav>
 
