@@ -6,6 +6,7 @@
         Bitcoin,
         Info,
         ChevronDown,
+        TrendingUpDown,
     } from "@lucide/svelte";
 
     const newsSources = [
@@ -16,6 +17,13 @@
         { name: "CryptoDaily", path: "/cryptodaily", icon: Newspaper },
         { name: "Decrypt", path: "/decrypt", icon: Newspaper },
         { name: "The Guardian", path: "/the-guardian", icon: Newspaper },
+        {
+            name: "Trending Cryptos",
+            path: "/trending",
+            icon: TrendingUpDown,
+            description:
+                "Discover the most talked-about cryptocurrencies of the moment.",
+        },
     ];
 </script>
 

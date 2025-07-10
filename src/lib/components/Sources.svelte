@@ -1,5 +1,5 @@
 <script lang="ts">
-    import { Bitcoin, Newspaper } from "@lucide/svelte";
+    import { Bitcoin, Newspaper, TrendingUpDown } from "@lucide/svelte";
 
     // News sources data from the /routes
     export let newsSources = [
@@ -51,6 +51,13 @@
             icon: Newspaper,
             description:
                 "Trusted financial news from a respected global source. Focus on crypto's impact on markets and society.",
+        },
+        {
+            name: "Trending Cryptos",
+            path: "/trending",
+            icon: TrendingUpDown,
+            description:
+                "Discover the most talked-about cryptocurrencies of the moment.",
         },
     ];
 </script>

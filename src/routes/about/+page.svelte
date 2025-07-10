@@ -29,7 +29,7 @@
         },
     ];
 
-    const pageTitle = "About Blockwatch";
+    const pageTitle = "About - Blockwatch";
     const pageDescription =
         "A modern, open-source platform for the latest cryptocurrency news and updates.";
     const pageKeywords =
