@@ -51,6 +51,9 @@
     <meta name="description" content={pageDescription} />
     <meta name="keywords" content={pageKeywords} />
     <meta name="author" content={pageAuthor} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={pageDescription} />
+    <meta property="og:url" content="https://blockwatch.com/privacy-policy" />
 </svelte:head>
 
 <div class="max-w-4xl mx-auto px-4 py-8 bg-background text-foreground">

@@ -66,6 +66,13 @@
             description:
                 "Learn the basics of cryptocurrency and blockchain technology.",
         },
+        {
+            name: "How to Buy Crypto",
+            path: "/how-to-buy-crypto",
+            icon: Info,
+            description:
+                "Learn how to buy cryptocurrency and get started with blockchain technology.",
+        },
     ];
 </script>
 

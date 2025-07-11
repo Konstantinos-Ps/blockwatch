@@ -6,6 +6,7 @@
         Coins,
         ArrowRight,
         AlertTriangle,
+        CreditCard,
     } from "@lucide/svelte";
     import FAQ from "$lib/components/ui/CryptoBasicsAccordion.svelte";
 
@@ -22,6 +23,14 @@
     <meta name="description" content={pageDescription} />
     <meta name="keywords" content={pageKeywords} />
     <meta name="author" content={pageAuthor} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={pageDescription} />
+    <meta property="og:image" content="/crypto-basics.jpg" />
+    <meta
+        property="og:url"
+        content="https://blockwatch-one.vercel.app/crypto-basics"
+    />
+    <meta property="og:type" content="website" />
 </svelte:head>
 
 <!--Mobile Responsive -->
@@ -143,6 +152,23 @@
         </ul>
     </section>
     <FAQ />
+    <!-- This is to link the to add the how-to-buy-crypto page with the crypto-basics -->
+    <section
+        class="mt-8 bg-background-alt rounded-lg p-6 border border-border-card"
+    >
+        <h2 class="text-xl font-semibold mb-4">Ready to Get Started?</h2>
+        <p class="mb-4 text-foreground-alt">
+            Learn how to safely buy your first cryptocurrency with our
+            step-by-step guide.
+        </p>
+        <a
+            href="/how-to-buy-crypto"
+            class="inline-flex items-center gap-2 bg-dark-40 hover:bg-accent text-white px-5 py-2.5 rounded-lg font-medium transition-colors"
+        >
+            <CreditCard class="w-5 h-5" />
+            How to Buy Crypto →
+        </a>
+    </section>
 
     <!-- Disclaimer -->
     <div

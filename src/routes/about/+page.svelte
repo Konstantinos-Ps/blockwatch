@@ -43,6 +43,11 @@
     <meta name="keywords" content={pageKeywords} />
     <meta name="author" content={pageAuthor} />
     <!-- Additional meta tags, links, or scripts -->
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={pageDescription} />
+    <meta property="og:image" content="/about.jpg" />
+    <meta property="og:url" content="https://blockwatch-one.vercel.app/about" />
+    <meta property="og:type" content="website" />
 </svelte:head>
 
 <div class="bg-background text-foreground min-h-screen py-12">
