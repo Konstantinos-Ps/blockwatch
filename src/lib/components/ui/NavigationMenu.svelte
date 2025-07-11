@@ -24,6 +24,13 @@
             description:
                 "Discover the most talked-about cryptocurrencies of the moment.",
         },
+        {
+            name: "Crypto Basics",
+            path: "/crypto-basics",
+            icon: Info,
+            description:
+                "Learn the basics of cryptocurrency and blockchain technology.",
+        },
     ];
 </script>
 

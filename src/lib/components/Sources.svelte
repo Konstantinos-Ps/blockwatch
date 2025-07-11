@@ -1,7 +1,7 @@
 <script lang="ts">
-    import { Bitcoin, Newspaper, TrendingUpDown } from "@lucide/svelte";
+    import { Bitcoin, Newspaper, TrendingUpDown, Info } from "@lucide/svelte";
 
-    // News sources data from the /routes
+    // News sources data from the /routes also an array of objects so i can easily update etc etc
     export let newsSources = [
         {
             name: "Bitcoinist",
@@ -58,6 +58,13 @@
             icon: TrendingUpDown,
             description:
                 "Discover the most talked-about cryptocurrencies of the moment.",
+        },
+        {
+            name: "Crypto Basics",
+            path: "/crypto-basics",
+            icon: Info,
+            description:
+                "Learn the basics of cryptocurrency and blockchain technology.",
         },
     ];
 </script>
