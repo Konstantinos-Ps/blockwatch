@@ -38,6 +38,13 @@
             description:
                 "Learn how to buy cryptocurrency and get started with blockchain technology.",
         },
+        {
+            name: "Glossary",
+            path: "/glossary",
+            icon: Info,
+            description:
+                "Learn the basics of cryptocurrency and blockchain technology.",
+        },
     ];
 </script>
 
