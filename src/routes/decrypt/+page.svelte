@@ -1,32 +1,20 @@
 <script lang="ts">
-    import { onMount } from "svelte";
+    import { createQuery } from "@tanstack/svelte-query";
 
-    // 1.FOR TS CHECKS PROPERLY DECLARE REACTIVE VARIABLE
-    let news: Array<{
-        title: string;
-        url: string;
-        description?: string;
-        source?: string;
-        createdAt?: string;
-    }> = [];
-
-    // 2.FETCH LOGIC WHEN PAGE LOADS
-    onMount(async () => {
-        try {
+    // Use createQuery to fetch news Tanstack addition so i dont exceed the api limit early on
+    const newsQuery = createQuery({
+        queryKey: ["decrypt"],
+        queryFn: async () => {
             const res = await fetch("/api/decrypt");
+            if (!res.ok) throw new Error("Failed to fetch news");
             const data = await res.json();
-
-            // 3.SAFE DATA ASSIGNMENT
-            news = Array.isArray(data?.data)
+            return Array.isArray(data?.data)
                 ? data.data
                 : Array.isArray(data)
                   ? data
                   : [];
-
-            console.log("Loaded news:", news); // Debug log because i want to see what's happening
-        } catch (err) {
-            console.error("Fetch error:", err);
-        }
+        },
+        staleTime: 5 * 60 * 60 * 1000, // 5 hours in milliseconds , I need  to do A/B testing so i whats best and cost effective etc
     });
 
     const pageTitle = "Decrypt - Blockwatch";
@@ -51,11 +39,15 @@
         Blockwatch
     </h1>
 
-    {#if news.length === 0}
+    {#if $newsQuery.isLoading}
         <p class="text-foreground-alt text-center py-8">Fetching news...</p>
-    {:else}
+    {:else if $newsQuery.isError}
+        <p class="text-foreground-alt text-center py-8">
+            Error: {$newsQuery.error.message}
+        </p>
+    {:else if $newsQuery.isSuccess}
         <ul class="space-y-6">
-            {#each news as item (item.url)}
+            {#each $newsQuery.data as item (item.url)}
                 <li
                     class="bg-background-alt rounded-lg p-6 shadow-card hover:shadow-popover transition-shadow border border-card"
                 >
@@ -99,7 +91,6 @@
         color: #2563eb;
         text-decoration: none;
     }
-
     .news-link:hover {
         text-decoration: underline;
     }

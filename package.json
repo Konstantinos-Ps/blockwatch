@@ -24,6 +24,7 @@
   },
   "dependencies": {
     "@lucide/svelte": "^0.525.0",
+    "@tanstack/svelte-query": "^5.83.0",
     "bits-ui": "^2.8.10",
     "posthog-js": "^1.257.0",
     "super-sitemap": "^1.0.4",

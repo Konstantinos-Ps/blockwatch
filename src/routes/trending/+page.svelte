@@ -1,43 +1,15 @@
 <script lang="ts">
-    import { onMount } from "svelte";
-    //for type checking so i dont have to do //@ts-nocheck haha
-    type CryptoData = {
-        symbol: string;
-        quoteAsset:
-            | "USDT"
-            | "BTC"
-            | "ETH"
-            | "BNB"
-            | "SOL"
-            | "XRP"
-            | "ADA"
-            | "DOGE"
-            | "TON"
-            | "UNI"
-            | "AVAX"
-            | "DOT"
-            | "MATIC"
-            | "LTC"
-            | "LINK"
-            | "XLM";
-        price: string;
-        priceChangePercent: string;
-        volume: string;
-    };
+    //@ts-nocheck still bored to do types for this one
+    import { createQuery } from "@tanstack/svelte-query";
 
-    let topGainers: CryptoData[] = [];
-    let topLosers: CryptoData[] = [];
-    let highVolume: CryptoData[] = [];
-    let isLoading = true;
-
-    onMount(async () => {
-        try {
+    const trendingQuery = createQuery({
+        queryKey: ["binance-trending"],
+        queryFn: async () => {
             const response = await fetch(
                 "https://api.binance.com/api/v3/ticker/24hr",
             );
             const data = await response.json();
 
-            // Process all supported pairs (USDT, BTC, ETH, BNB, SOL, XRP, ADA, DOGE, TON, UNI, AVAX, DOT, MATIC, LTC, LINK, XLM)
             const supportedPairs = [
                 "USDT",
                 "BTC",
@@ -56,7 +28,8 @@
                 "LINK",
                 "XLM",
             ] as const;
-            const allPairs = data
+
+            return data
                 .filter((item: any) =>
                     supportedPairs.some((pair) => item.symbol.endsWith(pair)),
                 )
@@ -73,43 +46,38 @@
                         ).toFixed(2),
                         volume: parseFloat(item.volume).toFixed(2),
                     };
-                });
-
-            // Deduplicate - prefer USDT pairs when available
-            const uniqueSymbols = new Set<string>();
-            const filteredData = allPairs.filter((pair) => {
-                if (uniqueSymbols.has(pair.symbol)) return false;
-                uniqueSymbols.add(pair.symbol);
-                return true;
-            });
-
-            // Sort as before
-            topGainers = [...filteredData]
-                .sort(
-                    (a, b) =>
-                        parseFloat(b.priceChangePercent) -
-                        parseFloat(a.priceChangePercent),
-                )
-                .slice(0, 10);
-
-            topLosers = [...filteredData]
-                .sort(
-                    (a, b) =>
-                        parseFloat(a.priceChangePercent) -
-                        parseFloat(b.priceChangePercent),
-                )
-                .slice(0, 10);
-
-            highVolume = [...filteredData]
-                .sort((a, b) => parseFloat(b.volume) - parseFloat(a.volume))
-                .slice(0, 10);
-
-            isLoading = false;
-        } catch (error) {
-            console.error("Failed to fetch trending data:", error);
-            isLoading = false;
-        }
+                })
+                .filter(
+                    (v: any, i: number, a: any[]) =>
+                        a.findIndex((t) => t.symbol === v.symbol) === i,
+                );
+        },
+        staleTime: 12 * 60 * 60 * 1000, // 12 hours refresh
     });
+
+    // Derived data
+    $: topGainers =
+        $trendingQuery.data
+            ?.sort(
+                (a, b) =>
+                    parseFloat(b.priceChangePercent) -
+                    parseFloat(a.priceChangePercent),
+            )
+            .slice(0, 10) || [];
+
+    $: topLosers =
+        $trendingQuery.data
+            ?.sort(
+                (a, b) =>
+                    parseFloat(a.priceChangePercent) -
+                    parseFloat(b.priceChangePercent),
+            )
+            .slice(0, 10) || [];
+
+    $: highVolume =
+        $trendingQuery.data
+            ?.sort((a, b) => parseFloat(b.volume) - parseFloat(a.volume))
+            .slice(0, 10) || [];
 
     const pageTitle = "Trending Cryptocurrencies - Blockwatch";
     const pageDescription =
@@ -124,6 +92,7 @@
     <meta name="description" content={pageDescription} />
     <meta name="keywords" content={pageKeywords} />
     <meta name="author" content={pageAuthor} />
+    <!-- Additional meta tags, links, or scripts -->
 </svelte:head>
 
 <div class="max-w-6xl mx-auto px-6 py-8 bg-background text-foreground">
@@ -136,8 +105,12 @@
         >
     </h1>
 
-    {#if isLoading}
+    {#if $trendingQuery.isLoading}
         <p class="text-foreground-alt text-center py-8">Loading data...</p>
+    {:else if $trendingQuery.isError}
+        <p class="text-foreground-alt text-center py-8">
+            Error: {$trendingQuery.error.message}
+        </p>
     {:else}
         <!-- Top Gainers -->
         <section class="mb-12">
@@ -166,6 +139,7 @@
                         </div>
                         <div class="mt-2 text-foreground-alt">
                             Price: ${crypto.price}
+                            <!-- Added $ here -->
                         </div>
                         <div class="mt-1 text-sm text-muted-foreground">
                             Volume: {crypto.volume}
@@ -202,6 +176,7 @@
                         </div>
                         <div class="mt-2 text-foreground-alt">
                             Price: ${crypto.price}
+                            <!-- Added $ here -->
                         </div>
                         <div class="mt-1 text-sm text-muted-foreground">
                             Volume: {crypto.volume}
@@ -238,6 +213,7 @@
                         </div>
                         <div class="mt-2 text-foreground-alt">
                             Price: ${crypto.price}
+                            <!-- Added $ here -->
                         </div>
                         <div class="mt-1 text-sm text-muted-foreground">
                             Volume: {crypto.volume}

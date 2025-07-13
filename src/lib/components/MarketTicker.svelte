@@ -1,5 +1,6 @@
 <script lang="ts">
     //@ts-nocheck still bored to do types for this one
+    import { createQuery } from "@tanstack/svelte-query";
     import { onMount } from "svelte";
     import {
         Bitcoin,
@@ -152,51 +153,51 @@
         prices[coin.id] = { price: "Loading...", change: "0.00" };
     });
     //Fetching prices from Binance public API
-    const fetchPrices = async () => {
-        try {
-            const responses = await Promise.all(
+    // Simple TanStack Query fetch
+    const tickerQuery = createQuery({
+        queryKey: ["market-ticker"],
+        queryFn: async () => {
+            const data = await Promise.all(
                 coins.map((coin) =>
                     fetch(
                         `https://api.binance.com/api/v3/ticker/24hr?symbol=${coin.apiSymbol}`,
-                    ),
+                    ).then((res) => res.json()),
                 ),
             );
+            return coins.reduce(
+                (acc, coin, index) => ({
+                    ...acc,
+                    [coin.id]: {
+                        price: formatPrice(data[index].lastPrice),
+                        change: formatPercentage(
+                            data[index].priceChangePercent,
+                        ),
+                    },
+                }),
+                {},
+            );
+        },
+        refetchInterval: 180000, // 3 minutes
+    });
 
-            const data = await Promise.all(responses.map((res) => res.json()));
+    // Keep your existing formatting helpers
+    const formatPrice = (value) =>
+        parseFloat(value) > 1
+            ? parseFloat(value).toLocaleString("en-US", {
+                  maximumFractionDigits: 2,
+              })
+            : parseFloat(value).toFixed(4);
 
-            coins.forEach((coin, index) => {
-                prices[coin.id] = {
-                    price: formatPrice(data[index].lastPrice),
-                    change: formatPercentage(data[index].priceChangePercent),
-                };
-            });
-        } catch (error) {
-            console.error("API Error:", error);
-        }
-    };
+    const formatPercentage = (value) => parseFloat(value).toFixed(2);
 
-    const animateScroll = () => {
-        scrollPosition -= scrollSpeed;
-        if (scrollPosition < -1000) scrollPosition = 0;
-        requestAnimationFrame(animateScroll);
-    };
-
-    const formatPrice = (value) => {
-        const num = parseFloat(value);
-        return num > 1
-            ? num.toLocaleString("en-US", { maximumFractionDigits: 2 })
-            : num.toFixed(4);
-    };
-
-    const formatPercentage = (value) => {
-        return parseFloat(value).toFixed(2);
-    };
-
+    // Keep your existing animation logic
     onMount(() => {
-        fetchPrices();
-        const priceInterval = setInterval(fetchPrices, 180000); //30000->30secs so 180000->3minutes new Crypto Prices
-        animateScroll();
-        return () => clearInterval(priceInterval);
+        const animate = () => {
+            scrollPosition -= scrollSpeed;
+            if (scrollPosition < -1000) scrollPosition = 0;
+            requestAnimationFrame(animate);
+        };
+        animate();
     });
 </script>
 
@@ -220,15 +221,18 @@
             <div class="inline-flex items-center gap-2 px-2">
                 <coin.icon class={`w-5 h-5 ${coin.color}`} />
                 <span class="font-medium">{coin.symbol}:</span>
-                <span class="tabular-nums"
-                    >${prices[coin.id]?.price || "–––"}</span
-                >
+                <span class="tabular-nums">
+                    ${$tickerQuery.data?.[coin.id]?.price || "–––"}
+                </span>
                 <span
-                    class:text-green-500={parseFloat(prices[coin.id]?.change) >=
-                        0}
-                    class:text-red-500={parseFloat(prices[coin.id]?.change) < 0}
+                    class:text-green-500={parseFloat(
+                        $tickerQuery.data?.[coin.id]?.change || "0",
+                    ) >= 0}
+                    class:text-red-500={parseFloat(
+                        $tickerQuery.data?.[coin.id]?.change || "0",
+                    ) < 0}
                 >
-                    ({prices[coin.id]?.change || "0.00"}%)
+                    ({$tickerQuery.data?.[coin.id]?.change || "0.00"}%)
                 </span>
             </div>
         {/each}
@@ -238,15 +242,18 @@
             <div class="inline-flex items-center gap-2 px-2">
                 <coin.icon class={`w-5 h-5 ${coin.color}`} />
                 <span class="font-medium">{coin.symbol}:</span>
-                <span class="tabular-nums"
-                    >${prices[coin.id]?.price || "–––"}</span
-                >
+                <span class="tabular-nums">
+                    {$tickerQuery.data?.[coin.id]?.price || "–––"}
+                </span>
                 <span
-                    class:text-green-500={parseFloat(prices[coin.id]?.change) >=
-                        0}
-                    class:text-red-500={parseFloat(prices[coin.id]?.change) < 0}
+                    class:text-green-500={parseFloat(
+                        $tickerQuery.data?.[coin.id]?.change || "0",
+                    ) >= 0}
+                    class:text-red-500={parseFloat(
+                        $tickerQuery.data?.[coin.id]?.change || "0",
+                    ) < 0}
                 >
-                    ({prices[coin.id]?.change || "0.00"}%)
+                    ({$tickerQuery.data?.[coin.id]?.change || "0.00"}%)
                 </span>
             </div>
         {/each}
