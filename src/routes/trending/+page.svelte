@@ -1,6 +1,7 @@
 <script lang="ts">
     //@ts-nocheck still bored to do types for this one
     import { createQuery } from "@tanstack/svelte-query";
+    import { ChartCandlestick } from "@lucide/svelte";
 
     const trendingQuery = createQuery({
         queryKey: ["binance-trending"],
@@ -99,7 +100,8 @@
     <h1
         class="scroll-m-20 text-balance text-3xl md:text-4xl font-extrabold tracking-tight mb-6 md:mb-8 px-4 md:px-0"
     >
-        Trending Cryptocurrencies <span class="text-sm font-normal opacity-75"
+        Trending Cryptocurrencies <ChartCandlestick />
+        <span class="text-sm font-normal opacity-75"
             >Disclaimer: This data is provided for informational purposes only
             and should not be considered investment advice.</span
         >

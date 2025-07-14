@@ -7,8 +7,10 @@
         Info,
         ChevronDown,
         TrendingUpDown,
+        Shield,
+        Languages,
     } from "@lucide/svelte";
-
+    // can add more sources here if needed
     const newsSources = [
         { name: "Bitcoinist", path: "/bitcoinist", icon: Bitcoin },
         { name: "BSC News", path: "/bsc-news", icon: Newspaper },
@@ -21,29 +23,26 @@
             name: "Trending Cryptos",
             path: "/trending",
             icon: TrendingUpDown,
-            description:
-                "Discover the most talked-about cryptocurrencies of the moment.",
         },
         {
             name: "Crypto Basics",
             path: "/crypto-basics",
             icon: Info,
-            description:
-                "Learn the basics of cryptocurrency and blockchain technology.",
         },
         {
             name: "How to Buy Crypto",
             path: "/how-to-buy-crypto",
             icon: Info,
-            description:
-                "Learn how to buy cryptocurrency and get started with blockchain technology.",
         },
         {
             name: "Glossary",
             path: "/glossary",
-            icon: Info,
-            description:
-                "Learn the basics of cryptocurrency and blockchain technology.",
+            icon: Languages,
+        },
+        {
+            name: "Security",
+            path: "/security",
+            icon: Shield,
         },
     ];
 </script>

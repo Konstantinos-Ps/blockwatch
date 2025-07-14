@@ -1,5 +1,12 @@
 <script lang="ts">
-    import { Bitcoin, Newspaper, TrendingUpDown, Info } from "@lucide/svelte";
+    import {
+        Bitcoin,
+        Newspaper,
+        TrendingUpDown,
+        Info,
+        Shield,
+        Languages,
+    } from "@lucide/svelte";
 
     // News sources data from the /routes also an array of objects so i can easily update etc etc
     export let newsSources = [
@@ -76,9 +83,16 @@
         {
             name: "Glossary",
             path: "/glossary",
-            icon: Info,
+            icon: Languages,
             description:
                 "Learn the basics of cryptocurrency and blockchain technology.",
+        },
+        {
+            name: "Security",
+            path: "/security",
+            icon: Shield,
+            description:
+                "Learn how to secure your cryptocurrency and blockchain assets.",
         },
     ];
 </script>

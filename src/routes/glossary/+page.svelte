@@ -1,5 +1,6 @@
 <script lang="ts">
     import { ArrowRight } from "@lucide/svelte";
+    import { Languages } from "@lucide/svelte";
 
     // Glossary terms (sorted alphabetically) can add more
     const glossaryTerms = [
@@ -94,7 +95,7 @@
 <!-- Reuse your existing card/list styling -->
 <div class="max-w-3xl mx-auto px-6 py-8 bg-background text-foreground">
     <h1 class="scroll-m-20 text-4xl font-extrabold tracking-tight mb-8">
-        Crypto Glossary
+        Crypto Glossary <Languages />
     </h1>
 
     <!-- Glossary list -->
