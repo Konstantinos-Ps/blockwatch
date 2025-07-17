@@ -1,4 +1,5 @@
 import type { RequestHandler } from "@sveltejs/kit";
+import { json } from "@sveltejs/kit"; //better because it return responses cleaner and more idiomatically
 import { RAPID_API_KEY, RAPID_API_HOST } from "$env/static/private";
 
 // Handle GET requests with Sveltekit even tho RAPIDAPI only has the vanilla version,
@@ -15,12 +16,9 @@ export const GET: RequestHandler = async () => {
   try {
     const response = await fetch(url, options);
     const result = await response.json();
-    return new Response(JSON.stringify(result), {
-      headers: { "Content-Type": "application/json" },
-    });
+
+    return json(result);
   } catch (error) {
-    return new Response(JSON.stringify({ error: "API failed" }), {
-      status: 500,
-    });
+    return json({ error: "API failed" }, { status: 500 });
   }
 };
